@@ -1,8 +1,7 @@
 name: zap_architecture_flutter
 description: Flutter helper package for the original zap_architecture plugin.
 version: 0.0.2
-author:
-homepage:
+homepage: musausman.com
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
