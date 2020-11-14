@@ -42,12 +42,13 @@ class SizeConfig {
   }
 
   double width(double size) {
-    assert(size <= 1);
     assert(_deviceWidth != null);
     return _deviceWidth * size;
   }
 
   EdgeInsets get safeArea => this._safeArea;
 
-  DeviceScreenType get screenType => this._screenType;
+  bool get isDesktopScreen => _screenType == DeviceScreenType.desktop;
+  bool get isTabletScreen => _screenType == DeviceScreenType.tablet;
+  bool get isMobileScreen => _screenType == DeviceScreenType.mobile;
 }
