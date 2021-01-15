@@ -1,3 +1,8 @@
+## [0.0.4] - Saturday, 16th January 2021.
+
+* Added HTTPMixin to handle safe HTTP requests with a lot of detailed error logging, integrates well with   `Response`.
+
+
 ## [0.0.3] - Saturday, 14th November 2020.
 
 * Added new booleans `isDesktop`, `isTablet` and `isMobile` to `SizeConfig` to check screen type based on screen dimensions. 
