@@ -7,14 +7,14 @@ import 'package:zap_architecture/zap_architecture.dart';
 import 'package:dio/dio.dart' as Dio;
 import 'package:zap_architecture_flutter/src/globals.dart';
 
-/// Created by Musa Usman on 07.11.2020
-/// Copyright © 2020 Musa Usman. All rights reserved.
+/// Created by Musa Usman on 16.01.2021
+/// Copyright © 2021 Musa Usman. All rights reserved.
 ///
 /// Email: hello@musausman.com
 /// Website: musausman.com
 /// WhatsApp: +92 324 9066001
-///
-enum RequestType { get, post, update }
+
+enum RequestType { get, post, update, delete }
 
 class HTTPMixin {
   final String serverURL;
@@ -172,6 +172,8 @@ class HTTPMixin {
       print(" - RESPONSE: ${e.response?.data}");
       print(" - HEADERS: ${e.request?.headers}");
       print(" - BODY: ${e.request.data}");
+    } else if (e is APIError) {
+      print(" - DATA: ${e.data}");
     }
 
     print(" - STACK:\n$s");
@@ -180,7 +182,7 @@ class HTTPMixin {
 
 class APIError {
   final Response response;
-  final String data;
+  final dynamic data;
 
   APIError(this.response, this.data);
 }

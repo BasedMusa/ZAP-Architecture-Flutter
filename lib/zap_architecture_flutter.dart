@@ -14,6 +14,8 @@ export 'src/size_config.dart';
 export 'src/platforms_mixin.dart';
 export 'src/status_mixin.dart';
 export 'src/process_mixin.dart';
+export 'src/http_mixin.dart';
+export 'src/globals.dart';
 
 /// Initialises PackageInfo content.
 Future<void> init() async {

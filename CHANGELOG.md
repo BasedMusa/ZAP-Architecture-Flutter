@@ -1,6 +1,19 @@
+## [0.0.4+3] - Saturday, 16th January 2021.
+
+* Improved error handling in `APIError`.
+
+## [0.0.4+2] - Saturday, 16th January 2021.
+
+* Added value `delete` to enum `RequestType`.
+
+## [0.0.4+1] - Saturday, 16th January 2021.
+
+* `HTTPMixin` was not exposed from the library, fixed that.
+
+
 ## [0.0.4] - Saturday, 16th January 2021.
 
-* Added HTTPMixin to handle safe HTTP requests with a lot of detailed error logging, integrates well with   `Response`.
+* Added `HTTPMixin` to handle safe HTTP requests with a lot of detailed error logging, integrates well with   `Response`.
 
 
 ## [0.0.3] - Saturday, 14th November 2020.
