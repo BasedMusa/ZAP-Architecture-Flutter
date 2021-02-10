@@ -1,3 +1,7 @@
+## [0.1.0+2] - Wednesday, 10th February 2021.
+
+* Fixed Exports (again).
+
 ## [0.1.0+1] - Wednesday, 10th February 2021.
 
 * Fixed Exports.
