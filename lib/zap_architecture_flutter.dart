@@ -10,11 +10,11 @@ import 'package:zap_architecture_flutter/src/globals.dart';
 /// Website: musausman.com
 /// WhatsApp: +92 324 9066001
 
-export 'src/size_config.dart';
-export 'src/platforms_mixin.dart';
-export 'src/status_mixin.dart';
-export 'src/process_mixin.dart';
-export 'src/http_mixin.dart';
+export 'src/user_interface/size_config.dart';
+export 'src/mixins/platforms_mixin.dart';
+export 'src/mixins/status_mixin.dart';
+export 'src/mixins/process_mixin.dart';
+export 'src/mixins/http_mixin.dart';
 export 'src/globals.dart';
 
 /// Initialises PackageInfo content.

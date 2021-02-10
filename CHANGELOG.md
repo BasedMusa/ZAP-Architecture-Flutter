@@ -1,4 +1,10 @@
+## [0.1.0+1] - Wednesday, 10th February 2021.
+
+* Fixed Exports.
+
 ## [0.1.0] - Wednesday, 10th February 2021.
+
+### BREAKING CHANGES
 
 * Migrated from `Provider` to `Get`.
 * Added `StatusIndicator` for handling `StatusMixin` in the UI.

@@ -1,6 +1,6 @@
 name: zap_architecture_flutter
 description: Flutter SDK for ZAP built on top of the core zap_architecture library.
-version: 0.1.0
+version: 0.1.0+1
 homepage: https://musausman.com
 
 environment:
