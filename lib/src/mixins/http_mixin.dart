@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/services.dart';
 import 'package:zap_architecture/zap_architecture.dart';
-import 'package:dio/dio.dart' as Dio;
+import 'package:dio/dio.dart';
 import 'package:zap_architecture_flutter/src/globals.dart';
+import 'package:zap_architecture_flutter/zap_architecture_flutter.dart';
 
 /// Created by Musa Usman on 16.01.2021
 /// Copyright © 2021 Musa Usman. All rights reserved.
@@ -21,9 +21,9 @@ class HTTPMixin {
 
   HTTPMixin(this.serverURL);
 
-  Dio.Dio _dio;
+  Dio _dio;
 
-  Future<Response<T>> request<T>(String url,
+  Future<Res<T>> request<T>(String url,
       {Map<String, dynamic> headers,
       Map body,
       RequestType requestType = RequestType.get}) async {
@@ -36,15 +36,17 @@ class HTTPMixin {
 
     try {
       if (_dio == null)
-        _dio = Dio.Dio(
-          Dio.BaseOptions(
+        _dio = Dio(
+          BaseOptions(
             baseUrl: serverURL,
           ),
         );
 
-      Dio.Response dioResponse;
+      Response dioResponse;
 
       if (headers == null) headers = Map<String, String>();
+
+      if (packageInfo == null) throw PackageInfoNullException();
 
       if (headers.containsKey("version") == false) {
         headers['version'] = packageInfo.version;
@@ -61,7 +63,7 @@ class HTTPMixin {
       if (requestType == RequestType.get) {
         dioResponse = await _dio.get(
           url,
-          options: Dio.Options(headers: headers),
+          options: Options(headers: headers),
         );
       } else if (requestType == RequestType.post) {
         if (headers.containsKey("Content-Type") == false)
@@ -72,7 +74,7 @@ class HTTPMixin {
         dioResponse = await _dio.post(
           url,
           data: _body,
-          options: Dio.Options(headers: headers),
+          options: Options(headers: headers),
         );
       } else if (requestType == RequestType.update) {
         if (headers.containsKey("Content-Type") == false)
@@ -83,12 +85,12 @@ class HTTPMixin {
         dioResponse = await _dio.put(
           url,
           data: _body,
-          options: Dio.Options(headers: headers),
+          options: Options(headers: headers),
         );
       } else {
         dioResponse = await _dio.delete(
           url,
-          options: Dio.Options(headers: headers),
+          options: Options(headers: headers),
         );
       }
 
@@ -102,43 +104,46 @@ class HTTPMixin {
             data['friendly_error_message'] == "null")
           data['friendly_error_message'] = null;
 
-        Response<T> response = Response<T>.fromJSON(data);
+        Res<T> response = Res<T>.fromJSON(data);
 
         if (response.success == false) throw APIError(response, data);
 
         return response;
       }
+    } on PackageInfoNullException catch (e, s) {
+      _logError(e, s, requestType, "$serverURL$url");
+      return Res.error(errorMessage: "Incomplete data. Contact developer.");
     } on APIError catch (e, s) {
       _logError(e, s, requestType, "$serverURL$url");
       return e.response;
     } on TimeoutException catch (e, s) {
       _logError(e, s, requestType, "$serverURL$url");
-      return Response.error(errorMessage: "Connection To Server Timeout");
+      return Res.error(errorMessage: "Connection To Server Timeout");
     } on FormatException catch (e, s) {
       _logError(e, s, requestType, "$serverURL$url");
-      return Response.error(errorMessage: "Connection To Server Timeout");
+      return Res.error(errorMessage: "Connection To Server Timeout");
     } on NonJSONContentException catch (e, s) {
       _logError(e, s, requestType, "$serverURL$url");
 
-      return Response.error(errorMessage: "Error fetching data.");
+      return Res.error(errorMessage: "Error fetching data.");
     } on SocketException catch (e, s) {
       _logError(e, s, requestType, "$serverURL$url");
-      return Response.error(
+      return Res.error(
         errorMessage: "Please check your internet connection and try again.",
       );
-    } on Dio.DioError catch (e, s) {
+    } on DioError catch (e, s) {
       _logError(e, s, requestType, "$serverURL$url");
 
       String friendlyErrorMessage = e.error is SocketException &&
               (e.error as SocketException).osError.errorCode == 111
           ? "Could not connect to server."
-          : e.type == Dio.DioErrorType.RECEIVE_TIMEOUT
+          : e.type == DioErrorType.RECEIVE_TIMEOUT
               ? "Connection to server timed out."
               : e.message.contains('SocketException')
                   ? "Could not connect to server."
                   : "Something Went Wrong.";
 
-      return Response.error(
+      return Res.error(
         errorMessage: e.toString(),
         friendlyErrorMessage: friendlyErrorMessage,
       );
@@ -146,16 +151,16 @@ class HTTPMixin {
       _logError(e, s, requestType, "$serverURL$url");
 
       if (e.code == "ERROR_NETWORK_REQUEST_FAILED") {
-        return Response.error(
+        return Res.error(
             errorMessage: e.toString(),
             friendlyErrorMessage:
                 "Please check your internet connection and try again.");
       } else {
-        return Response.error(errorMessage: e.toString());
+        return Res.error(errorMessage: e.toString());
       }
     } catch (e, s) {
       _logError(e, s, requestType, "$serverURL$url");
-      return Response.error(errorMessage: e.toString());
+      return Res.error(errorMessage: e.toString());
     }
   }
 
@@ -168,12 +173,15 @@ class HTTPMixin {
     print(" - URL: $requestURL");
     print(" - REQUEST TYPE: $requestType");
 
-    if (e is Dio.DioError) {
+    if (e is DioError) {
       print(" - RESPONSE: ${e.response?.data}");
       print(" - HEADERS: ${e.request?.headers}");
       print(" - BODY: ${e.request.data}");
     } else if (e is APIError) {
       print(" - DATA: ${e.data}");
+    } else if (e is PackageInfoNullException) {
+      print(
+          " - REASON: You have not called `ZAP.init()`.\nStep 1: Import zap_architecture_flutter in your main.dart file as ZAP.\nExample: import 'package:zap_architecture_flutter/zap_architecture_flutter.dart' as ZAP;\n\n Step 2: Call `ZAP.init()` inside your main() function.");
     }
 
     print(" - STACK:\n$s");
@@ -181,7 +189,7 @@ class HTTPMixin {
 }
 
 class APIError {
-  final Response response;
+  final Res response;
   final dynamic data;
 
   APIError(this.response, this.data);
@@ -193,3 +201,5 @@ class NonJSONContentException implements Exception {
 
   NonJSONContentException(this.url, this.content);
 }
+
+class PackageInfoNullException {}

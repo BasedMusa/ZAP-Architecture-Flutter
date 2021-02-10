@@ -67,6 +67,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  get:
+    dependency: "direct main"
+    description:
+      name: get
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.24.0"
   http_parser:
     dependency: transitive
     description:
@@ -94,7 +101,7 @@ packages:
       name: package_info
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.3+2"
+    version: "0.4.3+4"
   path:
     dependency: transitive
     description:
@@ -169,7 +176,7 @@ packages:
       name: zap_architecture
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.0"
+    version: "0.2.0+1"
 sdks:
-  dart: ">=2.10.0-110 <=2.11.0-213.1.beta"
+  dart: ">=2.10.0 <=2.11.0-213.1.beta"
   flutter: ">=1.17.0 <2.0.0"

@@ -1,6 +1,6 @@
 name: zap_architecture_flutter
-description: Flutter helper package for the original zap_architecture plugin.
-version: 0.0.4+3
+description: Flutter SDK for ZAP built on top of the core zap_architecture library.
+version: 0.0.4+4
 homepage: https://musausman.com
 
 environment:
@@ -11,9 +11,10 @@ dependencies:
   flutter:
     sdk: flutter
 
-  package_info: 0.4.3+2 
-  zap_architecture: 0.1.0
-  dio: 3.0.10
+  package_info: 0.4.3+4
+  zap_architecture: 0.2.0+1
+  dio: ^3.0.10
+  get: ^3.24.0 
 
 dev_dependencies:
   flutter_test:

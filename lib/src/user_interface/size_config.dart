@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:zap_architecture_flutter/src/helpers.dart';
 
 /// Created by Musa Usman on 07.11.2020
 /// Copyright © 2020 Musa Usman. All rights reserved.
@@ -13,10 +12,9 @@ class SizeConfig {
   double _deviceWidth;
   double _textScale;
   EdgeInsets _safeArea;
-  DeviceScreenType _screenType;
 
-  SizeConfig._internal(this._deviceHeight, this._deviceWidth, this._textScale,
-      this._safeArea, this._screenType);
+  SizeConfig._internal(
+      this._deviceHeight, this._deviceWidth, this._textScale, this._safeArea);
 
   static SizeConfig init(context) {
     MediaQueryData mediaQuery = MediaQuery.of(context);
@@ -25,10 +23,8 @@ class SizeConfig {
     final double deviceWidth = mediaQuery.size.width;
     final double textScale = mediaQuery.textScaleFactor;
     final EdgeInsets safeArea = mediaQuery.padding;
-    final DeviceScreenType screenType = getDeviceType(mediaQuery.size);
 
-    return SizeConfig._internal(
-        deviceHeight, deviceWidth, textScale, safeArea, screenType);
+    return SizeConfig._internal(deviceHeight, deviceWidth, textScale, safeArea);
   }
 
   double text(double size) {
@@ -47,8 +43,4 @@ class SizeConfig {
   }
 
   EdgeInsets get safeArea => this._safeArea;
-
-  bool get isDesktopScreen => _screenType == DeviceScreenType.desktop;
-  bool get isTabletScreen => _screenType == DeviceScreenType.tablet;
-  bool get isMobileScreen => _screenType == DeviceScreenType.mobile;
 }

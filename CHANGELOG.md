@@ -1,3 +1,12 @@
+## [0.1.0] - Wednesday, 10th February 2021.
+
+* Migrated from `Provider` to `Get`.
+* Added `StatusIndicator` for handling `StatusMixin` in the UI.
+* Restructered the source code.
+* Improved the documentation for `ProcessMixin` and `StatusMixin`.
+* Improved error handling if `ZAP.init()` is not called.
+* Removed unused helper stuff. Cleaner code base 😊.
+
 ## [0.0.4+3] - Saturday, 16th January 2021.
 
 * Improved error handling in `APIError`.
